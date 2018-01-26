@@ -1,5 +1,6 @@
 function Moon(id) {
   this.id = id;
+  this.alive = true;
   this.population = 0;
   this.theta = random(2*PI);
   this.x = 0;
@@ -12,12 +13,18 @@ function Moon(id) {
     this.theta += this.rotationSpeed;
     this.x = width/2 + this.dist * cos(this.theta);
     this.y = height/2 + this.dist * sin(this.theta);
-  }
+  };
   this.show = function() {
     fill(this.color);
     noStroke();
     ellipse(this.x, this.y, this.size);
     textSize(18);
     text('Moon ' + this.id + ': ' + this.population, 10, 30 + this.id * 20);
-  }
+  };
+  this.attack = function(dmg) {
+    this.population -= dmg;
+    if (this.population < 0) {
+      this.alive = false;
+    }
+  };
 }
