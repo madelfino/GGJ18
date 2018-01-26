@@ -20,6 +20,8 @@ var satTheta = 0;
 var planetPopulation = 100;
 var transmissionSize = 5;
 var gameOver;
+var logo;
+var stars = [];
 const ATTACK_MODE = -1;
 const REINFORCE_MODE = 1;
 
@@ -30,6 +32,7 @@ function preload() {
   moonImages.push(loadImage('images/crystalPlanet.png'));
   moonImages.push(loadImage('images/lavaPlanet.png'));
   moonImages.push(loadImage('images/bubblePlanet.png'));
+  logo = loadImage('images/jetconelogo.png');
 }
 
 function setup() {
@@ -39,10 +42,23 @@ function setup() {
   for (var i=1; i<=numMoons; i++) {
     moons.push(new Moon(i));
   }
+  for (var i=0; i<100; i++) {
+    stars.push({
+      x: random(width),
+      y: random(height),
+      size: 1 + random(4),
+      brightness: 156 + random(100)
+    });
+  }
 }
 
 function draw() {
-  background(0);
+  background(30);
+  for (var i=0; i<stars.length; i++) {
+    noStroke();
+    fill(stars[i].brightness);
+    ellipse(stars[i].x, stars[i].y, stars[i].size);
+  }
   if (timer % 200 == 0 && !gameOver) {
     aliens.push(new Alien());    
   }
@@ -108,4 +124,5 @@ function draw() {
     text("You Lose!", 100, 100);
     gameOver = true;
   }
+  if (gameOver) image(logo, width/2, height/2);
 }
