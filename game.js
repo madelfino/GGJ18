@@ -6,60 +6,12 @@
 let timer = 0;
 let moon_x, moon_y;
 var img;
+var aliens = [];
 var moons = [];
 var numMoons = 6;
 var satTheta = 0;
 var planetPopulation = 100;
 var transmissionSize = 5;
-
-var laser_beam = {
-  x1:0,
-  y1:0,
-  x2:0,
-  y2:0,
-  dx:0,
-  dy:0, 
-  len:90,
-  spd:9,
-  charge: 0,
-  maxCharge: 80,
-  alive: false,
-  chargeUp: function() {
-    this.charge++;
-    if (this.charge > this.maxCharge) {
-      this.charge = this.maxCharge;
-    }
-  },
-  show: function() {
-    stroke(0, 200, 0);
-    strokeWeight(5);
-    line(this.x1, this.y1, this.x2, this.y2);
-  },
-  update: function() {
-    this.x1 += this.dx;
-    this.y1 += this.dy;
-    if (dist(this.x1, this.y1, this.x2, this.y2) >= this.len) {
-      this.x2 += this.dx;
-      this.y2 += this.dy;
-    }
-    for (var i=0; i<moons.length; i++) {
-      for (var seg=0; seg<this.len/this.spd; seg++) {
-        var x = this.x1 - this.dx * seg;
-        var y = this.y1 - this.dy * seg;
-        noStroke();
-        fill(0,255,0);
-        ellipse(x, y, 3);
-        if (dist(x, y, moons[i].x, moons[i].y) < moons[i].size / 2) {
-          this.alive = false;
-          moons[i].population += transmissionSize;
-        }
-      }
-    }
-    if (this.x2 > width || this.x2 < 0 || this.y2 > height || this.y2 < 0) {
-      this.alive = false;
-    }
-  }
-}
 
 function setup() {
   createCanvas(800, 600);
@@ -72,6 +24,14 @@ function setup() {
 
 function draw() {
   background(0);
+  if (timer % 200 == 0) {
+    aliens.push(new Alien());    
+  }
+  timer++;
+  for (var i=0; i<aliens.length; i++) {
+    aliens[i].update();
+    aliens[i].show();
+  }
   planetPopulation += 0.01;
   if (keyIsDown(LEFT_ARROW)) {
     satTheta -= 0.1;
