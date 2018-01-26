@@ -1,9 +1,6 @@
 /* todo
 
-make aliens attack
-lose conditions
 toggle between attack/reinforce modes
-
 
 design considerations:
 rate of incoming enemies
@@ -17,11 +14,21 @@ let moon_x, moon_y;
 var img;
 var aliens = [];
 var moons = [];
+var moonImages = [];
 var numMoons = 6;
 var satTheta = 0;
 var planetPopulation = 100;
 var transmissionSize = 5;
 var gameOver;
+
+function preload() {
+  moonImages.push(loadImage('images/waterPlanet.png'));
+  moonImages.push(loadImage('images/icePlanet.png'));
+  moonImages.push(loadImage('images/gasPlanet.png'));
+  moonImages.push(loadImage('images/crystalPlanet.png'));
+  moonImages.push(loadImage('images/lavaPlanet.png'));
+  moonImages.push(loadImage('images/bubblePlanet.png'));
+}
 
 function setup() {
   createCanvas(800, 600);
