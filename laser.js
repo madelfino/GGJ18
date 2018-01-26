@@ -30,19 +30,31 @@ var laser_beam = {
       this.x2 += this.dx;
       this.y2 += this.dy;
     }
-    for (var i=0; i<moons.length; i++) {
-      for (var seg=0; seg<this.len/this.spd; seg++) {
-        var x = this.x1 - this.dx * seg;
-        var y = this.y1 - this.dy * seg;
-        noStroke();
-        if (this.mode == REINFORCE_MODE) fill(0,255,0);
-        else fill(255, 0, 0);
-        ellipse(x, y, 3); 
+    for (var seg=0; seg<this.len/this.spd; seg++) {
+      var x = this.x1 - this.dx * seg;
+      var y = this.y1 - this.dy * seg;
+      noStroke();
+      if (this.mode == REINFORCE_MODE) fill(0,255,0);
+      else fill(255, 0, 0);
+      ellipse(x, y, 3); 
+      for (var i=0; i<moons.length; i++) {
         if (dist(x, y, moons[i].x, moons[i].y) < moons[i].size / 2) {
           this.alive = false;
-          moons[i].population += transmissionSize;
-        }   
-      }   
+          moons[i].attack(-transmissionSize * this.mode);
+        }
+      }
+      for (var i=0; i<aliens.length; i++) {
+        if (dist(x, y, aliens[i].x, aliens[i].y) < 30) {
+          this.alive = false;
+          if (this.mode == ATTACK_MODE)
+            aliens[i].alive = false;
+        }
+      }
+    }
+    for (var i=0; i<aliens.length; i++) {
+      for (var seg=0; seg<this.len/this.spd; seg++) {
+      
+      }
     }   
     if (this.x2 > width || this.x2 < 0 || this.y2 > height || this.y2 < 0) {
       this.alive = false;

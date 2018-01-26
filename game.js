@@ -73,7 +73,7 @@ function draw() {
     laser_beam.charge = 0;
   }
   if (keyIsDown(DOWN_ARROW) && laser_beam.charge == laser_beam.maxCharge) {
-    laser_beam.mode = !laser_beam.mode;
+    laser_beam.mode = -laser_beam.mode;
     laser_beam.charge = 0;
   }
   if (laser_beam.alive) {
