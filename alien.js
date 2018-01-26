@@ -1,8 +1,9 @@
 function Alien() {
   var target_index = floor(random(moons.length));
+  this.ttl = 1000;
   this.target = moons[target_index];
   this.x = 0; this.y = 0; this.alive = true;
-  this.spd = 2.5;
+  this.spd = 1.2;
   var direction = floor(random(4));
   if (direction == 0) {
     this.y = random(height);
@@ -19,6 +20,8 @@ function Alien() {
     this.x = random(width);
   }
   this.update = function() {
+    this.ttl--;
+    if (this.ttl <= 0) this.alive = false;
     if (this.target.x < this.x) this.x -= this.spd;
     if (this.target.x > this.x) this.x += this.spd;
     if (this.target.y < this.y) this.y -= this.spd;
@@ -30,7 +33,7 @@ function Alien() {
   };
   this.show = function() {
     noStroke();
-    fill(200, 0, 0);
+    fill(100, 0, 0);
     ellipse(this.x, this.y, 50, 20);
     };
 }

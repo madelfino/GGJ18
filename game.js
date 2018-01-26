@@ -20,6 +20,8 @@ var satTheta = 0;
 var planetPopulation = 100;
 var transmissionSize = 5;
 var gameOver;
+const ATTACK_MODE = -1;
+const REINFORCE_MODE = 1;
 
 function preload() {
   moonImages.push(loadImage('images/waterPlanet.png'));
@@ -70,6 +72,10 @@ function draw() {
     laser_beam.dy = laser_beam.spd * sin(satTheta);    
     laser_beam.charge = 0;
   }
+  if (keyIsDown(DOWN_ARROW) && laser_beam.charge == laser_beam.maxCharge) {
+    laser_beam.mode = !laser_beam.mode;
+    laser_beam.charge = 0;
+  }
   if (laser_beam.alive) {
     laser_beam.show();
     laser_beam.update();
@@ -82,7 +88,9 @@ function draw() {
   noStroke();
   fill(150);  
   ellipse(width/2 + 42 * cos(satTheta), height/2 + 42 * sin(satTheta), 10);
-  fill(0,255,0);
+  
+  if (laser_beam.mode == REINFORCE_MODE) fill(0,255,0);
+  else fill(255, 0, 0);
   ellipse(width/2+42*cos(satTheta),height/2+42*sin(satTheta), 10*(laser_beam.charge/laser_beam.maxCharge));
   fill(0, 0, 150);
   ellipse(width/2, height/2, 64);

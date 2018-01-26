@@ -9,6 +9,7 @@ var laser_beam = {
   spd:9,
   charge: 0,
   maxCharge: 80, 
+  mode: 1,
   alive: false,
   chargeUp: function() {
     this.charge++;
@@ -17,7 +18,8 @@ var laser_beam = {
     }   
   },  
   show: function() {
-    stroke(0, 200, 0); 
+    if (this.mode == REINFORCE_MODE) stroke(0, 200, 0);
+    else stroke(200, 0, 0);
     strokeWeight(5);
     line(this.x1, this.y1, this.x2, this.y2);
   },  
@@ -33,7 +35,8 @@ var laser_beam = {
         var x = this.x1 - this.dx * seg;
         var y = this.y1 - this.dy * seg;
         noStroke();
-        fill(0,255,0);
+        if (this.mode == REINFORCE_MODE) fill(0,255,0);
+        else fill(255, 0, 0);
         ellipse(x, y, 3); 
         if (dist(x, y, moons[i].x, moons[i].y) < moons[i].size / 2) {
           this.alive = false;
