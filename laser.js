@@ -11,10 +11,13 @@ var laser_beam = {
   maxCharge: 80, 
   mode: 1,
   alive: false,
+  charged: false,
   chargeUp: function() {
-    this.charge++;
+    if (!this.charged) this.charge++;
     if (this.charge > this.maxCharge) {
       this.charge = this.maxCharge;
+      sfx['charged'].play();
+      this.charged = true;
     }   
   },  
   show: function() {

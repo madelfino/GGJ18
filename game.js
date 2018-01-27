@@ -9,6 +9,8 @@ fixed speed/size of moons
 
 */
 
+const ATTACK_MODE = -1;
+const REINFORCE_MODE = 1;
 let timer = 0;
 let moon_x, moon_y;
 var img;
@@ -22,8 +24,7 @@ var transmissionSize = 5;
 var gameOver;
 var logo;
 var stars = [];
-const ATTACK_MODE = -1;
-const REINFORCE_MODE = 1;
+var sfx = {};
 
 function preload() {
   moonImages.push(loadImage('images/waterPlanet.png'));
@@ -32,12 +33,22 @@ function preload() {
   moonImages.push(loadImage('images/crystalPlanet.png'));
   moonImages.push(loadImage('images/lavaPlanet.png'));
   moonImages.push(loadImage('images/bubblePlanet.png'));
-  logo = loadImage('images/jetconelogo.png');
+  logo = loadImage('images/jetconelogo2.png');
+  sfx['nice_laser_shoot'] = loadSound('sfx/nice_laser_shoot.wav');
+  sfx['mean_laser_shoot'] = loadSound('sfx/mean_laser_shoot.wav');
+  sfx['abduction'] = loadSound('sfx/abduction.wav');
+  sfx['charged'] = loadSound('sfx/charged.wav');
+  sfx['enemy_explosion'] = loadSound('sfx/enemy_explosion.wav');
+  sfx['planet_explosion'] = loadSound('sfx/planet_explosion.wav');
+  sfx['beam_switch'] = loadSound('sfx/beam_switch.wav');
 }
 
 function setup() {
   createCanvas(800, 600);
   imageMode(CENTER);
+  for (var item in sfx) {
+    sfx[item].setVolume(0.1);
+  }
   gameOver = false;
   for (var i=1; i<=numMoons; i++) {
     moons.push(new Moon(i));
@@ -68,6 +79,7 @@ function draw() {
     aliens[i].show();
     if (!aliens[i].alive || gameOver) {
       aliens.splice(i, 1);
+      sfx['enemy_explosion'].play();
     }
   }
   planetPopulation += 0.01;
@@ -78,6 +90,9 @@ function draw() {
     satTheta += 0.1;
   }
   if (keyIsDown(UP_ARROW) && !laser_beam.alive && planetPopulation >= transmissionSize && laser_beam.charge == laser_beam.maxCharge) {
+    if (laser_beam.mode == REINFORCE_MODE) sfx['nice_laser_shoot'].play();
+    else sfx['mean_laser_shoot'].play();
+    laser_beam.charged = false;
     planetPopulation -= transmissionSize;
     laser_beam.alive = true;
     laser_beam.x1 = width/2+42*cos(satTheta);
@@ -91,6 +106,8 @@ function draw() {
   if (keyIsDown(DOWN_ARROW) && laser_beam.charge == laser_beam.maxCharge) {
     laser_beam.mode = -laser_beam.mode;
     laser_beam.charge = 0;
+    laser_beam.charged = false;
+    sfx['beam_switch'].play();
   }
   if (laser_beam.alive) {
     laser_beam.show();
@@ -117,6 +134,7 @@ function draw() {
     moons[i].show();
     if (!moons[i].alive) {
       moons.splice(i, 1);
+      sfx['planet_explosion'].play();
     }
   }
   if (moons.length == 0) {
@@ -124,5 +142,5 @@ function draw() {
     text("You Lose!", 100, 100);
     gameOver = true;
   }
-  if (gameOver) image(logo, width/2, height/2);
+  if (gameOver) image(logo, 2*width/3, 2*height/3);
 }

@@ -28,6 +28,7 @@ function Alien() {
     if (this.target.y > this.y) this.y += this.spd;
     if (dist(this.target.x, this.target.y, this.x, this.y) < this.target.size /2) {
       this.target.attack(1+random(9));
+      sfx['abduction'].play();
       this.alive = false;
     }
   };

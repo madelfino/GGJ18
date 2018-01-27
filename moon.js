@@ -1,7 +1,7 @@
 function Moon(id) {
   this.id = id;
   this.alive = true;
-  this.population = 0;
+  this.population = 10;
   this.theta = random(2*PI);
   this.x = 0;
   this.y = 0;
