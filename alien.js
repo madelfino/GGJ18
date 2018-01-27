@@ -35,6 +35,6 @@ function Alien() {
   this.show = function() {
     noStroke();
     fill(100, 0, 0);
-    ellipse(this.x, this.y, 50, 20);
-    };
+    image(enemyImg, this.x, this.y, 90, 40);
+  };
 }
