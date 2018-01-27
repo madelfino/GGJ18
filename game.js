@@ -26,7 +26,7 @@ var gameOver;
 var logo;
 var stars = [];
 var sfx = {};
-var planetImage;
+var planetImage, satImg;
 var endImg, enemyImg;
 
 function preload() {
@@ -39,6 +39,7 @@ function preload() {
   logo = loadImage('images/jetconelogo2.png');
   endImg = loadImage('images/end.png');
   enemyImg = loadImage('images/enemy.png');
+  satImg = loadImage('images/sat.png');
   sfx['nice_laser_shoot'] = loadSound('sfx/nice_laser_shoot.wav');
   sfx['mean_laser_shoot'] = loadSound('sfx/mean_laser_shoot.wav');
   sfx['abduction'] = loadSound('sfx/abduction.wav');
@@ -129,13 +130,20 @@ function draw() {
   } else {
     laser_beam.chargeUp();
   }
+  /*
   strokeWeight(5);
   stroke(150);
   line(width/2, height/2, width/2+42*cos(satTheta), height/2+42*sin(satTheta));
   noStroke();
   fill(150);  
   ellipse(width/2 + 42 * cos(satTheta), height/2 + 42 * sin(satTheta), 10);
-  
+  */
+  push()
+  angleMode(RADIANS);
+  translate(width/2, height/2);
+  rotate(PI / 2.0 + satTheta);
+  image(satImg, 0, -42, 20, 40);
+  pop();
   if (laser_beam.mode == REINFORCE_MODE) fill(0,255,0);
   else fill(255, 0, 0);
   ellipse(width/2+42*cos(satTheta),height/2+42*sin(satTheta), 10*(laser_beam.charge/laser_beam.maxCharge));
