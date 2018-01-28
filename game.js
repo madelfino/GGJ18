@@ -28,6 +28,7 @@ var stars = [];
 var sfx = {};
 var planetImage, satImg;
 var endImg, enemyImg;
+var explodeAnim;
 
 function preload() {
   moonImages.push(loadImage('images/icePlanet.png'));
@@ -40,6 +41,7 @@ function preload() {
   endImg = loadImage('images/end.png');
   enemyImg = loadImage('images/enemy.png');
   satImg = loadImage('images/sat.png');
+  explodeAnim = loadImage('images/explode.gif');
   sfx['nice_laser_shoot'] = loadSound('sfx/nice_laser_shoot.wav');
   sfx['mean_laser_shoot'] = loadSound('sfx/mean_laser_shoot.wav');
   sfx['abduction'] = loadSound('sfx/abduction.wav');
@@ -47,6 +49,7 @@ function preload() {
   sfx['enemy_explosion'] = loadSound('sfx/enemy_explosion.wav');
   sfx['planet_explosion'] = loadSound('sfx/planet_explosion.wav');
   sfx['beam_switch'] = loadSound('sfx/beam_switch.wav');
+  sfx['end'] = loadSound('sfx/Game-Over.mp3');
 }
 
 function setup() {
@@ -130,14 +133,6 @@ function draw() {
   } else {
     laser_beam.chargeUp();
   }
-  /*
-  strokeWeight(5);
-  stroke(150);
-  line(width/2, height/2, width/2+42*cos(satTheta), height/2+42*sin(satTheta));
-  noStroke();
-  fill(150);  
-  ellipse(width/2 + 42 * cos(satTheta), height/2 + 42 * sin(satTheta), 10);
-  */
   push()
   angleMode(RADIANS);
   translate(width/2, height/2);
@@ -158,6 +153,7 @@ function draw() {
     moons[i].update();
     moons[i].show();
     if (!moons[i].alive) {
+      image(explodeAnim, moons[i].x, moons[i].y);
       moons.splice(i, 1);
       sfx['planet_explosion'].play();
     }
@@ -166,6 +162,7 @@ function draw() {
     textSize(72);
     if (!gameOver) {
       finalScore = floor(timer/10) * floor(planetPopulation);
+    sfx['end'].play();
     }
     fill(200);
     text("The End Of Us", 65, 100);
