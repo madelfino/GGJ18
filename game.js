@@ -122,7 +122,7 @@ function game_loop() {
     image(endImg, 0, 0);
     imageMode(CENTER);
   }
-  if (timer % 200 == 0 && !gameOver) {
+  if (timer % 200 == 0 && timer > 360 && !gameOver) {
     aliens.push(new Alien());    
   }
   timer++;
