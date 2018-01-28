@@ -11,6 +11,7 @@ fixed speed/size of moons
 
 const ATTACK_MODE = -1;
 const REINFORCE_MODE = 1;
+let instTimer;
 let finalScore = 0;
 let timer = 0;
 let moon_x, moon_y;
@@ -29,9 +30,13 @@ var sfx = {};
 var planetImage, satImg;
 var endImg, enemyImg;
 var explodeAnim;
-var reloadImg;
+var reloadImg, menuImg;
+var state;
 
 function preload() {
+  menuImg = loadImage('images/menu.png');
+  instrImg = loadImage('images/instructions1.png');
+  ctrlImg = loadImage('images/controls.png');
   moonImages.push(loadImage('images/icePlanet.png'));
   moonImages.push(loadImage('images/gasPlanet.png'));
   moonImages.push(loadImage('images/crystalPlanet.png'));
@@ -72,9 +77,40 @@ function setup() {
       brightness: 156 + random(100)
     });
   }
+  state = 'menu';
+  instTimer = 0;
 }
 
 function draw() {
+  background(0);
+  if (state == 'menu') {
+    draw_menu();
+  }
+  if (state == 'instructions') {
+    instTimer++;
+    draw_instructions();
+  }
+  if (state == 'controls') {
+    draw_controls();
+  }
+  if (state == 'game') {
+    game_loop();
+  }
+}
+
+function draw_menu() {
+  image(menuImg, width/2, height/2);
+}
+
+function draw_instructions() {
+  image(instrImg, width/2, height/2);
+}
+
+function draw_controls() {
+  image(ctrlImg, width/2, height/2);
+}
+
+function game_loop() {
   background(30);
   for (var i=0; i<stars.length; i++) {
     noStroke();
@@ -178,6 +214,28 @@ function draw() {
 }
 
 function mouseClicked() {
+  if (state == 'menu') {
+    if (dist(mouseX, mouseY, 300, 410) < 64) {
+      state = 'game';
+    }
+    if (dist(mouseX, mouseY, 480, 420) < 64) {
+      state = 'controls';
+    }
+  }
+  if (state == 'instructions') {
+    if (dist(mouseX, mouseY, 165, 438) < 22) {
+      state = 'controls';
+    }
+    if (dist(mouseX, mouseY, 635, 436) < 22 && instTimer > 5) {
+      state = 'menu';
+    }
+  }
+  if (state == 'controls') {
+    if (dist(mouseX, mouseY, 635, 436) < 23) {
+      state = 'instructions';
+      instTimer = 0;
+    }
+  }
   if (gameOver && dist(mouseX, mouseY, width/2, height/2) < 90) {
     setup();
   }

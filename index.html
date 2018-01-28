@@ -1,5 +1,12 @@
 <html>
   <head>
+    <script>
+      window.addEventListener("keydown", function(e) {
+        if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          e.preventDefault();
+        }
+      }, false);
+    </script>
     <script src="p5/p5.min.js"></script>
     <script src="p5/addons/p5.sound.min.js"></script>
     <script src="moon.js"></script>
@@ -8,7 +15,7 @@
     <script src="game.js"></script>
     <style>
       body {
-        text-align: center;
+        text-align:center;
       }
     </style>
   </head>
