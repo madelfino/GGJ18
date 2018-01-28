@@ -19,7 +19,7 @@ var img;
 var aliens = [];
 var moons = [];
 var moonImages = [];
-var numMoons = 5;
+var numMoons = 1;
 var satTheta = 0;
 var planetPopulation;
 var transmissionSize = 5;
@@ -59,6 +59,7 @@ function preload() {
   sfx['beam_switch'] = loadSound('sfx/beam_switch.wav');
   sfx['end'] = loadSound('sfx/Game-Over.mp3');
   menuMusic = loadSound('sfx/High-Tension.mp3');
+  menuMusic.setVolume(0.6);
 }
 
 function setup() {
@@ -67,6 +68,7 @@ function setup() {
   for (var item in sfx) {
     sfx[item].setVolume(0.2);
   }
+  sfx['end'].setVolume(0.6);
   gameOver = false;
   for (var i=1; i<=numMoons; i++) {
     moons.push(new Moon(i));
