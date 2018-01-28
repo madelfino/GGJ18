@@ -29,6 +29,7 @@ var sfx = {};
 var planetImage, satImg;
 var endImg, enemyImg;
 var explodeAnim;
+var reloadImg;
 
 function preload() {
   moonImages.push(loadImage('images/icePlanet.png'));
@@ -41,6 +42,7 @@ function preload() {
   endImg = loadImage('images/end.png');
   enemyImg = loadImage('images/enemy.png');
   satImg = loadImage('images/sat.png');
+  reloadImg = loadImage('images/reload.png');
   explodeAnim = loadImage('images/explode.gif');
   sfx['nice_laser_shoot'] = loadSound('sfx/nice_laser_shoot.wav');
   sfx['mean_laser_shoot'] = loadSound('sfx/mean_laser_shoot.wav');
@@ -169,5 +171,14 @@ function draw() {
     text("Final Score", 50, 200);
     text(finalScore, 65, 300);
     gameOver = true;
+  }
+  if(gameOver) {
+    image(reloadImg, width/2, height/2);
+  }
+}
+
+function mouseClicked() {
+  if (gameOver && dist(mouseX, mouseY, width/2, height/2) < 90) {
+    setup();
   }
 }
