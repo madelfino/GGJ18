@@ -32,6 +32,7 @@ var endImg, enemyImg;
 var explodeAnim;
 var reloadImg, menuImg;
 var state;
+var menuMusic;
 
 function preload() {
   menuImg = loadImage('images/menu.png');
@@ -57,13 +58,14 @@ function preload() {
   sfx['planet_explosion'] = loadSound('sfx/planet_explosion.wav');
   sfx['beam_switch'] = loadSound('sfx/beam_switch.wav');
   sfx['end'] = loadSound('sfx/Game-Over.mp3');
+  menuMusic = loadSound('sfx/High-Tension.mp3');
 }
 
 function setup() {
   createCanvas(800, 600);
   imageMode(CENTER);
   for (var item in sfx) {
-    sfx[item].setVolume(0.1);
+    sfx[item].setVolume(0.2);
   }
   gameOver = false;
   for (var i=1; i<=numMoons; i++) {
@@ -79,6 +81,7 @@ function setup() {
   }
   state = 'menu';
   instTimer = 0;
+  menuMusic.loop();
 }
 
 function draw() {
@@ -217,6 +220,7 @@ function mouseClicked() {
   if (state == 'menu') {
     if (dist(mouseX, mouseY, 300, 410) < 64) {
       state = 'game';
+      menuMusic.stop();
     }
     if (dist(mouseX, mouseY, 480, 420) < 64) {
       state = 'controls';
