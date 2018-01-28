@@ -13,7 +13,7 @@ const ATTACK_MODE = -1;
 const REINFORCE_MODE = 1;
 let instTimer;
 let finalScore = 0;
-let timer = 0;
+let timer;
 let moon_x, moon_y;
 var img;
 var aliens = [];
@@ -21,7 +21,7 @@ var moons = [];
 var moonImages = [];
 var numMoons = 5;
 var satTheta = 0;
-var planetPopulation = 100;
+var planetPopulation;
 var transmissionSize = 5;
 var gameOver;
 var logo;
@@ -81,6 +81,8 @@ function setup() {
   }
   state = 'menu';
   instTimer = 0;
+  planetPopulation = 100;
+  timer = 0;
   menuMusic.loop();
 }
 
