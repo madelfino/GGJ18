@@ -19,7 +19,7 @@ var img;
 var aliens = [];
 var moons = [];
 var moonImages = [];
-var numMoons = 1;
+var numMoons = 5;
 var satTheta = 0;
 var planetPopulation;
 var transmissionSize = 5;
